@@ -1,0 +1,91 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Lead {
+  assignedAgent String?
+  createdAt     DateTime        @default(now())
+  email         String?
+  id            String          @id @default(cuid())
+  name          String?
+  phone         String?
+  source        String?
+  status        EnumLeadStatus?
+  updatedAt     DateTime        @updatedAt
+}
+
+model Task {
+  assignedAgent String?
+  createdAt     DateTime        @default(now())
+  description   String?
+  dueDate       DateTime?
+  id            String          @id @default(cuid())
+  relatedLead   String?
+  status        EnumTaskStatus?
+  title         String?
+  updatedAt     DateTime        @updatedAt
+}
+
+model InternalMessage {
+  createdAt DateTime  @default(now())
+  id        String    @id @default(cuid())
+  message   String?
+  receiver  String?
+  sender    String?
+  timestamp DateTime?
+  updatedAt DateTime  @updatedAt
+}
+
+model Agent {
+  createdAt DateTime       @default(now())
+  email     String?
+  id        String         @id @default(cuid())
+  name      String?
+  phone     String?
+  role      EnumAgentRole?
+  updatedAt DateTime       @updatedAt
+}
+
+model Report {
+  createdAt   DateTime             @default(now())
+  data        Json?
+  generatedAt DateTime?
+  id          String               @id @default(cuid())
+  typeField   EnumReportTypeField?
+  updatedAt   DateTime             @updatedAt
+}
+
+model Communication {
+  content   String?
+  createdAt DateTime                    @default(now())
+  id        String                      @id @default(cuid())
+  recipient String?
+  sentAt    DateTime?
+  typeField EnumCommunicationTypeField?
+  updatedAt DateTime                    @updatedAt
+}
+
+enum EnumLeadStatus {
+  Option1
+}
+
+enum EnumTaskStatus {
+  Option1
+}
+
+enum EnumAgentRole {
+  Option1
+}
+
+enum EnumReportTypeField {
+  Option1
+}
+
+enum EnumCommunicationTypeField {
+  Option1
+}
